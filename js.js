@@ -1,4 +1,10 @@
 const myTestArray = [2,4,6]
+const myTestArrayObj = [
+    {name: "bike", price: 30},
+    {name: "car", price: 4000},
+    {name: "book", price: 10},
+    {name: "car", price: 8000},
+]
 console.log("======= My test Array:" , myTestArray)
 
 //! === "ForEach" Method === */
@@ -6,7 +12,7 @@ console.log("======= My test Array:" , myTestArray)
 //* Built-In function Test
 console.log("======= 'ForEach' Built-In function Test")
 
-myTestArray.forEach((el, ndx, arr) => console.log(el * ndx + arr.length))
+myTestArray.forEach((el, ndx, arr) => console.log(el * ndx + arr.length)) // 3, 7 , 15
 
 
 //* Implement Test
@@ -16,7 +22,7 @@ function myForEach(arr) {
         forEachConditions(arr[i],i,arr)
     }
 }
-myForEach(myTestArray)
+myForEach(myTestArray) // 3, 7 , 15
 
 function forEachConditions(element,index,array) {
     return console.log(element * index + array.length)
@@ -27,7 +33,7 @@ function forEachConditions(element,index,array) {
 //* Built-In function Test
 console.log("======= 'map' Built-In function Test")
 
-console.log(myTestArray.map((el,ndx,arr) => el * ndx + arr.length))
+console.log(myTestArray.map((el,ndx,arr) => el * ndx + arr.length)) // [3, 7, 15]
 
 //* Implement Test
 console.log("======= 'map' Implement Test")
@@ -38,7 +44,7 @@ function myMap(arr) {
     }
     return newMapArray
 }
-console.log(myMap(myTestArray))        
+console.log(myMap(myTestArray))  // [3, 7, 15]      
 
 function mapConditions(element,index,array) {
    return element * index + array.length
@@ -49,7 +55,7 @@ function mapConditions(element,index,array) {
 //* Built-In function Test
 console.log("======= 'filter' Built-In function Test")
 
-console.log(myTestArray.filter((el,ndx,arr) => el < arr.length - ndx))
+console.log(myTestArray.filter((el,ndx,arr) => el < arr.length - ndx)) // [2]
 
 
 //* Implement Test
@@ -61,7 +67,7 @@ function myFilter(arr) {
     }
     return newFilterArray
 }
-console.log(myFilter(myTestArray))        
+console.log(myFilter(myTestArray))  // [2]       
 
 function filterConditions(element,index,array) {
    return element < array.length - index
@@ -74,7 +80,7 @@ let initialValue = 1
 const builtInAccumulator = myTestArray.reduce(reduceConditions, initialValue) // With Initial Value
 // const builtInAccumulator = myTestArray.reduce(reduceConditions) // Without Initial Value
 
-console.log(builtInAccumulator)
+console.log(builtInAccumulator) // 19
 
 //* Common Conditions
 function reduceConditions(accumulator,currentelement,index,array) {
@@ -99,19 +105,19 @@ function myReduce(arry, init) {
     return impAccumulator
 }
 
-console.log(myReduce(myTestArray, initialValue))        
+console.log(myReduce(myTestArray, initialValue))  // 19      
 
 //! === "some" Array Method === */
 
 //* Built-In function Test
 console.log("======= 'some method' Built-In function Test")
 
-let thisArgument = 4
+let someThisArgument = 4
 console.log(
     myTestArray.some(function (el, i, arr) {
-        return el == this; // this == thisArgument
-    }, thisArgument)
-)
+        return el == this; // this == someThisArgument
+    }, someThisArgument)
+) // true
 
 //* Implement Test
 console.log("======= 'some method' Implement Test")
@@ -119,11 +125,65 @@ console.log("======= 'some method' Implement Test")
 function mySome(array, thisArg) {
     for (let index = 0; index < array.length; index++) {
         const element = array[index];
-        if (element == thisArg) {
+        if (element > thisArg) {
             return true
         } 
     }
     return false
+} // true
+
+console.log(mySome(myTestArray, someThisArgument))        
+
+//! === "every" Array Method === */
+
+let everyThisArgument = 8
+//* Built-In function Test
+console.log("======= 'every method' Built-In function Test")
+
+console.log(
+    myTestArray.every(function (el, i, arr) {
+        return el < this; // this == everyThisArgument
+    }, everyThisArgument)
+) // true
+
+//* Implement Test
+console.log("======= 'every method' Implement Test")
+
+function myEvery(arr, thisArg) {
+    for (let i = 0; i < arr.length; i++) {
+        if (!(arr[i] < thisArg)) { 
+            return false
+        } 
+    }
+    return true
 }
 
-console.log(mySome(myTestArray, thisArgument))        
+console.log(
+    myEvery(myTestArray, everyThisArgument) 
+)        // true
+//! === "find" Array Method === */
+
+//* Built-In function Test
+console.log("======= 'find method' Built-In function Test")
+
+console.log(
+    myTestArrayObj.find(findConditions) // {name: 'car', price: 4000}
+)
+
+//* Common Conditions
+function findConditions(el) {
+     return el.name == "car" 
+}
+
+//* Implement Test
+console.log("======= 'find method' Implement Test")
+
+function myFind(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        if (findConditions(arr[i])) return arr[i]
+    }
+}
+
+console.log(
+    myFind(myTestArrayObj) // {name: 'car', price: 4000}
+)        
