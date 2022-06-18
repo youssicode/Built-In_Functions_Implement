@@ -187,3 +187,69 @@ function myFind(arr) {
 console.log(
     myFind(myTestArrayObj) // {name: 'car', price: 4000}
 )        
+//! === "flat" Array Method === */
+const myTestArrayToFlat = [1, [2, 3], [[]], [4, [5]], 6]
+console.log(myTestArrayToFlat)
+//* Built-In function Test
+console.log("======= 'flat() method' Built-In function Test")
+
+console.log(myTestArrayToFlat.flat()) // [1, 2, 3, [], 4, [5], 6]
+    
+console.log("======= 'flat(Infinity) method' Built-In function Test")
+console.log(myTestArrayToFlat.flat(Infinity)) // [1, 2, 3, 4, 5, 6]
+
+//* Implement Test
+console.log("======= 'flat() method' Implement Test")
+let flatedArray = new Array
+function myFlat(arr) {
+    while (arr.length) {
+        let currentEl = arr.shift()
+        if (Array.isArray(currentEl)) {
+            for (let j = 0; j < currentEl.length; j++) {
+                    flatedArray.push(currentEl[j])
+            } 
+            continue
+        } 
+        flatedArray.push(currentEl)
+    }
+    return flatedArray
+    
+    //========== method 2 =======
+    
+    // for (let i = 0; i < arr.length; i++) {
+        // if (Array.isArray(arr[i])) {
+            // for (let j = 0; j < arr[i].length; j++) {
+            //             flatedArray.push(arr[i][j])
+            //         } 
+            //         continue
+            //     } 
+            //     flatedArray.push(arr[i])
+            // }
+            // return flatedArray
+                
+}
+
+console.log("======= 'flat(Infinity) method' Implement Test")
+// function myFlat(arr) {
+
+    // flatArray(arr)
+    // return flatedArray
+
+    // function flatArray(arr) {
+        //     while (arr.length) {
+    //         let currentEl = arr.shift()
+    //         if (Array.isArray(currentEl)) {
+    //             flatArray(currentEl)
+    //             continue
+    //         } 
+    //         flatedArray.push(currentEl)
+    //     }
+
+    // }
+// }
+
+
+console.log(myFlat(myTestArrayToFlat)) // 
+                   
+                    
+                    
