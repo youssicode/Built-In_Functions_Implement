@@ -188,68 +188,91 @@ console.log(
     myFind(myTestArrayObj) // {name: 'car', price: 4000}
 )        
 //! === "flat" Array Method === */
-const myTestArrayToFlat = [1, [2, 3], [[]], [4, [5]], 6]
-console.log(myTestArrayToFlat)
-//* Built-In function Test
-console.log("======= 'flat() method' Built-In function Test")
+const myTestArrayToFlat = [1, [2, 3], [[]], [4, [5,6,[7]]], 8]
+console.log("Original array", myTestArrayToFlat) 
 
-console.log(myTestArrayToFlat.flat()) // [1, 2, 3, [], 4, [5], 6]
-    
-console.log("======= 'flat(Infinity) method' Built-In function Test")
-console.log(myTestArrayToFlat.flat(Infinity)) // [1, 2, 3, 4, 5, 6]
+//* Built-In function Test
+
+console.log(".flat()",myTestArrayToFlat.flat())   // [1, 2, 3, [], 4, [5,6,[7]], 8]
+console.log(".flat(0)",myTestArrayToFlat.flat(0)) // [1, [2, 3], [[]], [4, [5,6,[7]], 8]
+console.log(".flat(1)",myTestArrayToFlat.flat(1)) // [1, 2, 3, [], 4, [5,6,[7]], 8]
+console.log(".flat(2)",myTestArrayToFlat.flat(2)) // [1, 2, 3, 4, 5, 6, [7], 8]
+console.log(".flat(3)",myTestArrayToFlat.flat(3)) // [1, 2, 3, 4, 5, 6, 7, 8]
+console.log(".flat(Infinity)",myTestArrayToFlat.flat(Infinity)) // [1, 2, 3, 4, 5, 6]
 
 //* Implement Test
-console.log("======= 'flat() method' Implement Test")
-let flatedArray = new Array
-function myFlat(arr) {
-    while (arr.length) {
-        let currentEl = arr.shift()
-        if (Array.isArray(currentEl)) {
-            for (let j = 0; j < currentEl.length; j++) {
-                    flatedArray.push(currentEl[j])
+
+console.log("################ 'flat(withArgument:nbr Or Infinity) method' Implement, Global Function Test ##############")
+
+function myFlat(arr,arg = 1) { // arg = 1 if no argument passed
+    const flatedArray = new Array // Or = []
+    flatArray(arr, arg)
+    function flatArray(tabl, depth) {
+        for (const currentEl of tabl) {
+            if (Array.isArray(currentEl) && depth) { // depth != 0
+                flatArray(currentEl, depth - 1)
+                continue // Skip the next instructions
             } 
-            continue
-        } 
-        flatedArray.push(currentEl)
+            flatedArray.push(currentEl)
+        }
     }
     return flatedArray
-    
-    //========== method 2 =======
-    
-    // for (let i = 0; i < arr.length; i++) {
-        // if (Array.isArray(arr[i])) {
-            // for (let j = 0; j < arr[i].length; j++) {
-            //             flatedArray.push(arr[i][j])
-            //         } 
-            //         continue
-            //     } 
-            //     flatedArray.push(arr[i])
-            // }
-            // return flatedArray
-                
 }
 
-console.log("======= 'flat(Infinity) method' Implement Test")
+console.log("implementFlat()",myFlat(myTestArrayToFlat)) // [1, 2, 3, [], 4, [5,6,[7]], 8]
+console.log("implementFlat(0)",myFlat(myTestArrayToFlat,0)) // [1, [2, 3], [[]], [4, [5,6,[7]], 8]
+console.log("implementFlat(1)",myFlat(myTestArrayToFlat,1)) // [1, 2, 3, [], 4, [5,6,[7]], 8]
+console.log("implementFlat(2)",myFlat(myTestArrayToFlat,2)) // [1, 2, 3, 4, 5, 6, [7], 8]
+console.log("implementFlat(3)",myFlat(myTestArrayToFlat,3)) // [1, 2, 3, 4, 5, 6, 7, 8]
+console.log("implementFlat(Infinity)",myFlat(myTestArrayToFlat, Infinity)) // [1, 2, 3, 4, 5, 6, 7, 8]
+
+
+
+// console.log("======= 'flat() method' Implement Test (Without Argument)")
 // function myFlat(arr) {
-
-    // flatArray(arr)
-    // return flatedArray
-
-    // function flatArray(arr) {
-        //     while (arr.length) {
-    //         let currentEl = arr.shift()
-    //         if (Array.isArray(currentEl)) {
-    //             flatArray(currentEl)
-    //             continue
+//     let flatedArray = new Array
+//     while (arr.length) {
+//         let currentEl = arr.shift()
+//         if (Array.isArray(currentEl)) {
+//             for (let j = 0; j < currentEl.length; j++) {
+//                     flatedArray.push(currentEl[j])
+//             } 
+//             continue
+//         } 
+//         flatedArray.push(currentEl)
+//     }
+//     return flatedArray
+// }
+    //========== method 2: with For Loop =======
+// function myFlat(arr) {
+//     let flatedArray = new Array
+    // for (let i = 0; i < arr.length; i++) {
+    //     if (Array.isArray(arr[i])) {
+    //         for (let j = 0; j < arr[i].length; j++) {
+    //             flatedArray.push(arr[i][j])
     //         } 
-    //         flatedArray.push(currentEl)
-    //     }
-
+    //         continue
+    //     } 
+    //     flatedArray.push(arr[i])
     // }
+    // return flatedArray
 // }
 
 
-console.log(myFlat(myTestArrayToFlat)) // 
-                   
-                    
-                    
+// console.log("======= 'flat(Infinity) method' Implement Test")
+// function myFlat(arr) {
+//     let flatedArray = new Array
+//     flatArray(arr)
+//     return flatedArray
+
+//     function flatArray(arr) {
+//         while (arr.length) {
+//             let currentEl = arr.shift()
+//             if (Array.isArray(currentEl)) {
+//                 flatArray(currentEl)
+//                 continue // Skip the next instructions
+//             } 
+//             flatedArray.push(currentEl)
+//         }
+//     }
+// }
