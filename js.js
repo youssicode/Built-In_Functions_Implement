@@ -187,44 +187,37 @@ function myFind(arr) {
 console.log(
     myFind(myTestArrayObj) // {name: 'car', price: 4000}
 )        
-//! === "flat" Array Method === */
+    
+console.log('//!########### "flat" Array Method #########')
+
 const myTestArrayToFlat = [1, [2, 3], [[]], [4, [5,6,[7]]], 8]
-console.log("Original array", myTestArrayToFlat) 
 
-//* Built-In function Test
-
-console.log(".flat()",myTestArrayToFlat.flat())   // [1, 2, 3, [], 4, [5,6,[7]], 8]
-console.log(".flat(0)",myTestArrayToFlat.flat(0)) // [1, [2, 3], [[]], [4, [5,6,[7]], 8]
-console.log(".flat(1)",myTestArrayToFlat.flat(1)) // [1, 2, 3, [], 4, [5,6,[7]], 8]
-console.log(".flat(2)",myTestArrayToFlat.flat(2)) // [1, 2, 3, 4, 5, 6, [7], 8]
-console.log(".flat(3)",myTestArrayToFlat.flat(3)) // [1, 2, 3, 4, 5, 6, 7, 8]
-console.log(".flat(Infinity)",myTestArrayToFlat.flat(Infinity)) // [1, 2, 3, 4, 5, 6]
-
-//* Implement Test
-
-console.log("################ 'flat(withArgument:nbr Or Infinity) method' Implement, Global Function Test ##############")
-
-function myFlat(arr,arg = 1) { // arg = 1 if no argument passed
-    const flatedArray = new Array // Or = []
-    flatArray(arr, arg)
-    function flatArray(tabl, depth) {
-        for (const currentEl of tabl) {
-            if (Array.isArray(currentEl) && depth) { // depth != 0
-                flatArray(currentEl, depth - 1)
-                continue // Skip the next instructions
-            } 
-            flatedArray.push(currentEl)
+function Flat(array,dp) {
+    //* Built-In function Test
+    console.log('flat() Built-In Test', array.flat(dp)) 
+    
+    //* Implement Test
+    function myFlat(arr,arg = 1) { // arg = 1 if no argument passed
+        const flatedArray = new Array // Or = []
+        flatArray(arr, arg)
+        function flatArray(tabl, depth) {
+            for (const currentEl of tabl) {
+                if (Array.isArray(currentEl) && depth) { // depth != 0
+                    flatArray(currentEl, depth - 1)
+                    continue // Skip the next instructions
+                } 
+                flatedArray.push(currentEl)
+            }
         }
+        return flatedArray
     }
-    return flatedArray
+    console.log('flat() Implement Test', myFlat(array, dp))
 }
-
-console.log("implementFlat()",myFlat(myTestArrayToFlat)) // [1, 2, 3, [], 4, [5,6,[7]], 8]
-console.log("implementFlat(0)",myFlat(myTestArrayToFlat,0)) // [1, [2, 3], [[]], [4, [5,6,[7]], 8]
-console.log("implementFlat(1)",myFlat(myTestArrayToFlat,1)) // [1, 2, 3, [], 4, [5,6,[7]], 8]
-console.log("implementFlat(2)",myFlat(myTestArrayToFlat,2)) // [1, 2, 3, 4, 5, 6, [7], 8]
-console.log("implementFlat(3)",myFlat(myTestArrayToFlat,3)) // [1, 2, 3, 4, 5, 6, 7, 8]
-console.log("implementFlat(Infinity)",myFlat(myTestArrayToFlat, Infinity)) // [1, 2, 3, 4, 5, 6, 7, 8]
+Flat(myTestArrayToFlat) // [1, 2, 3, [], 4, [5, 6, [7]], 8]
+Flat(myTestArrayToFlat, 1) // [1, 2, 3, [], 4, [5, 6, [7]], 8]
+Flat(myTestArrayToFlat, 2) // [1, 2, 3, 4, 5, 6, [7], 8]
+Flat(myTestArrayToFlat, 3) // [1, 2, 3, 4, 5, 6, 7, 8]
+Flat(myTestArrayToFlat, Infinity) // [1, 2, 3, 4, 5, 6, 7, 8]
 
 
 
@@ -277,30 +270,27 @@ console.log("implementFlat(Infinity)",myFlat(myTestArrayToFlat, Infinity)) // [1
 //     }
 // }
 
-//! === "fill" Array Method === */
+console.log('//!########### "fill" Array Method #########')
 
-
-
-//* Common Conditions
-
-let fillArray = [1, 2, 3, 4, 5, 6, 7, 8]
-function fill_method(arr, value, start, end) {
-    //* Built-In function Test
-    console.log(
-        arr.fill(value, start, end) 
-    )
-
-    //* Implement Test
+function fill_method (val, str, nd) {
+    // * Built-In function Test
+        const builtInFillArray = [1, 2, 3, 4, 5, 6, 7, 8]
+        console.log('fill() Built-In function Test',
+            builtInFillArray.fill(val, str, nd) 
+        )   
     
-    function myFill(value, start = 0, end = myTestArray.length) {
-        for (let i = start; i < end; i++) {
-            arr[i] = value
-        }
-    }
-    console.log("======= 'fill method' Implement Test")
-    console.log(arr)        
+    //* Implement Test
+        const implFillArray = [1, 2, 3, 4, 5, 6, 7, 8]
+        console.log('fill method Implement Test', 
+            (function myFill(array, value, start = 0, end = array.length) {
+                for (let i = start; i < end; i++) {
+                    array[i] = value
+                }
+                return array       
+            })(implFillArray, val, str, nd) // (the hole function)(arguments) ~ function(arguments) => Calling the function
+        )
 }
-fill_method(fillArray, "val", 3, 5) // [1, 2, 3, 'val', 'val', 6, 7, 8]
-// fill_method(fillArray, "val", 5) // [1, 2, 3, 4, 5, 'val', 'val', 'val']
-// fill_method(fillArray, "val") // ['val', 'val', 'val', 'val', 'val', 'val', 'val', 'val']
+fill_method("val", 3, 5) // [1, 2, 3, 'val', 'val', 6, 7, 8]
+// fill_method("val", 5) // [1, 2, 3, 4, 5, 'val', 'val', 'val']
+// fill_method("val") // ['val', 'val', 'val', 'val', 'val', 'val', 'val', 'val']
 
