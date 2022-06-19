@@ -276,3 +276,31 @@ console.log("implementFlat(Infinity)",myFlat(myTestArrayToFlat, Infinity)) // [1
 //         }
 //     }
 // }
+
+//! === "fill" Array Method === */
+
+
+
+//* Common Conditions
+
+let fillArray = [1, 2, 3, 4, 5, 6, 7, 8]
+function fill_method(arr, value, start, end) {
+    //* Built-In function Test
+    console.log(
+        arr.fill(value, start, end) 
+    )
+
+    //* Implement Test
+    
+    function myFill(value, start = 0, end = myTestArray.length) {
+        for (let i = start; i < end; i++) {
+            arr[i] = value
+        }
+    }
+    console.log("======= 'fill method' Implement Test")
+    console.log(arr)        
+}
+fill_method(fillArray, "val", 3, 5) // [1, 2, 3, 'val', 'val', 6, 7, 8]
+// fill_method(fillArray, "val", 5) // [1, 2, 3, 4, 5, 'val', 'val', 'val']
+// fill_method(fillArray, "val") // ['val', 'val', 'val', 'val', 'val', 'val', 'val', 'val']
+
