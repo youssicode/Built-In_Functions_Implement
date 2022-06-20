@@ -1,10 +1,4 @@
 const myTestArray = [2,4,6]
-const myTestArrayObj = [
-    {name: "bike", price: 30},
-    {name: "car", price: 4000},
-    {name: "book", price: 10},
-    {name: "car", price: 8000},
-]
 console.log("======= My test Array:" , myTestArray)
 
 //! === "ForEach" Method === */
@@ -55,7 +49,8 @@ function mapConditions(element,index,array) {
 //* Built-In function Test
 console.log("======= 'filter' Built-In function Test")
 
-console.log(myTestArray.filter((el,ndx,arr) => el < arr.length - ndx)) // [2]
+// console.log(myTestArray.filter((el,ndx,arr) => el < arr.length - ndx)) // [2]
+console.log(myTestArray.filter((el,ndx,arr) =>  filterConditions(el,ndx,arr))) // [2]
 
 
 //* Implement Test
@@ -70,7 +65,7 @@ function myFilter(arr) {
 console.log(myFilter(myTestArray))  // [2]       
 
 function filterConditions(element,index,array) {
-   return element < array.length - index
+   return element <= array.length + index
 }
 //! === "reduce" higher function === */
 
@@ -89,19 +84,19 @@ function reduceConditions(accumulator,currentelement,index,array) {
 //* Implement Test
 console.log("======= 'reduce' Implement Test")
 function myReduce(arry, init) {
-    let start
-    // if (init != NaN) {
-    //     impAccumulator = init
-    //     start = 0
-    // }
-    // if (init == undefined) {
-    //     impAccumulator = arry[0]
-    //     start = 1
-    // }
-    init == undefined? (impAccumulator = arry[0], start = 1) : (impAccumulator = init, start = 0)
+    init == null? (impAccumulator = arry[0], start = 1) : (impAccumulator = init, start = 0)
     for (let i = start; i < arry.length; i++) {  
         impAccumulator = reduceConditions(impAccumulator,arry[i],i,arry)
     }
+    // OR:
+    // let impAccumulator = init
+    // for (let i = 0; i < arry.length; i++) {  
+    //     if (init == null && i === 0) {
+    //         impAccumulator = arry[0]
+    //     } else {
+    //         impAccumulator = reduceConditions(impAccumulator,arry[i],i,arry)
+    //     }
+    // }
     return impAccumulator
 }
 
@@ -109,85 +104,90 @@ console.log(myReduce(myTestArray, initialValue))  // 19
 
 //! === "some" Array Method === */
 
-//* Built-In function Test
-console.log("======= 'some method' Built-In function Test")
+function Some(array, thisArgmnt) { 
+    
+    //* Built-In function Test
+        console.log("='some method'= Built-In function Test", 
+        array.some(function (el, i, arr) {
+            return someCb(el, this) // this == thisArgmnt
+        }, thisArgmnt)
+        ) 
+    
+    //* Implement Test
+        function mySome(arr, Argmnt) {
+            for (let index = 0; index < arr.length; index++) {
+                if (someCb(arr[index], Argmnt)) return true
+            }
+            return false
+        }
+        console.log("='some method' Implement Test", mySome(array, thisArgmnt))
 
-let someThisArgument = 4
-console.log(
-    myTestArray.some(function (el, i, arr) {
-        return el == this; // this == someThisArgument
-    }, someThisArgument)
-) // true
+    //* Common Conditions
+        function someCb(element, Arg) {
+            return element > Arg
+        }
+}    
+Some(myTestArray, 8) // false    
 
-//* Implement Test
-console.log("======= 'some method' Implement Test")
-
-function mySome(array, thisArg) {
-    for (let index = 0; index < array.length; index++) {
-        const element = array[index];
-        if (element > thisArg) {
-            return true
-        } 
-    }
-    return false
-} // true
-
-console.log(mySome(myTestArray, someThisArgument))        
 
 //! === "every" Array Method === */
 
-let everyThisArgument = 8
-//* Built-In function Test
-console.log("======= 'every method' Built-In function Test")
-
-console.log(
-    myTestArray.every(function (el, i, arr) {
-        return el < this; // this == everyThisArgument
-    }, everyThisArgument)
-) // true
-
-//* Implement Test
-console.log("======= 'every method' Implement Test")
-
-function myEvery(arr, thisArg) {
-    for (let i = 0; i < arr.length; i++) {
-        if (!(arr[i] < thisArg)) { 
-            return false
-        } 
-    }
-    return true
-}
-
-console.log(
-    myEvery(myTestArray, everyThisArgument) 
-)        // true
-//! === "find" Array Method === */
-
-//* Built-In function Test
-console.log("======= 'find method' Built-In function Test")
-
-console.log(
-    myTestArrayObj.find(findConditions) // {name: 'car', price: 4000}
-)
-
-//* Common Conditions
-function findConditions(el) {
-     return el.name == "car" 
-}
-
-//* Implement Test
-console.log("======= 'find method' Implement Test")
-
-function myFind(arr) {
-    for (let i = 0; i < arr.length; i++) {
-        if (findConditions(arr[i])) return arr[i]
-    }
-}
-
-console.log(
-    myFind(myTestArrayObj) // {name: 'car', price: 4000}
-)        
+function Every(array, thisArgmnt) { 
     
+    //* Built-In function Test
+        console.log("='every method'= Built-In function Test", 
+        array.every(function (el, i, arr) {
+            return everyCb(el, this) // this == thisArgmnt
+        }, thisArgmnt)) 
+    
+    //* Implement Test
+        function myEvery(arr, Argmnt) {
+            for (let index = 0; index < arr.length; index++) {
+                if (!everyCb(arr[index], Argmnt)) return false
+            }
+            return true
+        }
+        console.log("='every method' Implement Test", 
+        myEvery(array, thisArgmnt))
+
+    //* Common Conditions
+        function everyCb(element, Arg) {
+            return element >= Arg
+        }
+}    
+Every(myTestArray, 2) // true 
+
+//! === "find" Array Method === */
+const myTestArrayObj = [
+    {name: "bike", price: 30},
+    {name: "car", price: 4000},
+    {name: "book", price: 10},
+    {name: "car", price: 8000},
+]
+
+function Find (array, cb) {
+    
+    //* Built-In function Test
+        console.log('= "find method" Built-In Test',
+        array.find(cb) 
+        )
+
+    //* Implement function Test
+        function myFind(arr) {
+            for (let i = 0; i < arr.length; i++) {
+                if (cb(arr[i])) return arr[i]
+            }
+        }
+        console.log('= "find method" Implement Test',
+            myFind(array) 
+        )        
+}
+Find(myTestArrayObj, findCb) // {name: 'car', price: 4000}
+
+function findCb(el) {
+    return el.name == "car" 
+}
+
 console.log('//!########### "flat" Array Method #########')
 
 const myTestArrayToFlat = [1, [2, 3], [[]], [4, [5,6,[7]]], 8]
@@ -197,18 +197,15 @@ function Flat(array,dp) {
     console.log('flat() Built-In Test', array.flat(dp)) 
     
     //* Implement Test
-    function myFlat(arr,arg = 1) { // arg = 1 if no argument passed
-        const flatedArray = new Array // Or = []
-        flatArray(arr, arg)
-        function flatArray(tabl, depth) {
+    const flatedArray = new Array // Or = []
+    function myFlat(tabl, depth = 1) { // depth = 1 if no argument passed
             for (const currentEl of tabl) {
                 if (Array.isArray(currentEl) && depth) { // depth != 0
-                    flatArray(currentEl, depth - 1)
+                    myFlat(currentEl, depth - 1)
                     continue // Skip the next instructions
                 } 
                 flatedArray.push(currentEl)
             }
-        }
         return flatedArray
     }
     console.log('flat() Implement Test', myFlat(array, dp))
@@ -219,56 +216,22 @@ Flat(myTestArrayToFlat, 2) // [1, 2, 3, 4, 5, 6, [7], 8]
 Flat(myTestArrayToFlat, 3) // [1, 2, 3, 4, 5, 6, 7, 8]
 Flat(myTestArrayToFlat, Infinity) // [1, 2, 3, 4, 5, 6, 7, 8]
 
+//! 2nd Method for 'flat(Infinity) method
+let flatedArray2 = []
+function flatArray(arr) {
+    while (arr.length) {
+        let currentEl = arr.shift() // Extract and delete the first element from the array
+        if (Array.isArray(currentEl)) {
+            flatArray(currentEl)
+        } else {
+            flatedArray2.push(currentEl)
+        }
+    }
+    return flatedArray2
+}
+console.log("===2nd Method for 'flat(Infinity) method' Implement Test",
+flatArray(myTestArrayToFlat))
 
-
-// console.log("======= 'flat() method' Implement Test (Without Argument)")
-// function myFlat(arr) {
-//     let flatedArray = new Array
-//     while (arr.length) {
-//         let currentEl = arr.shift()
-//         if (Array.isArray(currentEl)) {
-//             for (let j = 0; j < currentEl.length; j++) {
-//                     flatedArray.push(currentEl[j])
-//             } 
-//             continue
-//         } 
-//         flatedArray.push(currentEl)
-//     }
-//     return flatedArray
-// }
-    //========== method 2: with For Loop =======
-// function myFlat(arr) {
-//     let flatedArray = new Array
-    // for (let i = 0; i < arr.length; i++) {
-    //     if (Array.isArray(arr[i])) {
-    //         for (let j = 0; j < arr[i].length; j++) {
-    //             flatedArray.push(arr[i][j])
-    //         } 
-    //         continue
-    //     } 
-    //     flatedArray.push(arr[i])
-    // }
-    // return flatedArray
-// }
-
-
-// console.log("======= 'flat(Infinity) method' Implement Test")
-// function myFlat(arr) {
-//     let flatedArray = new Array
-//     flatArray(arr)
-//     return flatedArray
-
-//     function flatArray(arr) {
-//         while (arr.length) {
-//             let currentEl = arr.shift()
-//             if (Array.isArray(currentEl)) {
-//                 flatArray(currentEl)
-//                 continue // Skip the next instructions
-//             } 
-//             flatedArray.push(currentEl)
-//         }
-//     }
-// }
 
 console.log('//!########### "fill" Array Method #########')
 
