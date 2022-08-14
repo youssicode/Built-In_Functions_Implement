@@ -1,0 +1,22 @@
+{
+  "name": "built-in_functions_implement",
+  "version": "1.0.0",
+  "description": "",
+  "main": "implement.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youssicode/Built-In_Functions_Implement.git"
+  },
+  "author": "[Youssef El-Hrouzi]",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/youssicode/Built-In_Functions_Implement/issues"
+  },
+  "homepage": "https://github.com/youssicode/Built-In_Functions_Implement#readme",
+  "devDependencies": {
+    "jest": "^28.1.3"
+  }
+}
