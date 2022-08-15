@@ -72,10 +72,11 @@ function filterConditions(element,index,array) {
 //* Built-In function Test
 console.log("======= 'reduce' Built-In function Test")
 let initialValue = 1
-const builtInAccumulator = myTestArray.reduce(reduceConditions, initialValue) // With Initial Value
-// const builtInAccumulator = myTestArray.reduce(reduceConditions) // Without Initial Value
+const builtInAccumulatorInit = myTestArray.reduce(reduceConditions, initialValue) // With Initial Value
+const builtInAccumulator = myTestArray.reduce(reduceConditions) // Without Initial Value
 
-console.log(builtInAccumulator) // 19
+console.log("with 'initial value'", builtInAccumulatorInit) // 19
+console.log("without 'initial value'", builtInAccumulator) // 15
 
 //* Common Conditions
 function reduceConditions(accumulator,currentelement,index,array) {
@@ -84,7 +85,7 @@ function reduceConditions(accumulator,currentelement,index,array) {
 //* Implement Test
 console.log("======= 'reduce' Implement Test")
 function myReduce(arry, init) {
-    init == null? (impAccumulator = arry[0], start = 1) : (impAccumulator = init, start = 0)
+    init == undefined? (impAccumulator = arry[0], start = 1) : (impAccumulator = init, start = 0)
     for (let i = start; i < arry.length; i++) {  
         impAccumulator = reduceConditions(impAccumulator,arry[i],i,arry)
     }
@@ -100,7 +101,8 @@ function myReduce(arry, init) {
     return impAccumulator
 }
 
-console.log(myReduce(myTestArray, initialValue))  // 19      
+console.log("with 'initial value'", myReduce(myTestArray, initialValue))  //  19      
+console.log("without 'initial value'", myReduce(myTestArray))  // 15    
 
 //! === "some" Array Method === */
 

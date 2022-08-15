@@ -1,55 +1,46 @@
 //! === "ForEach" Method === */
 
-function myForEach(arr, cbFun) {
+function myForEach(arr, conditionsFun) {
     for (let i = 0; i < arr.length; i++) {
-        cbFun (arr[i], i, arr)
+        conditionsFun (arr[i], i, arr)
     }
 }
 
 //! === "map" higher function === */
 
-function myMap(arr) {
+function myMap(arr, conditionsFun) {
     const newMapArray = []
     for (let i = 0; i < arr.length; i++) {
-        newMapArray.push(arr[i] * i + arr.length)
+        newMapArray.push(conditionsFun(arr[i],i,arr))
     }
     return newMapArray
 }
 
 //! === "filter" higher function === */
 
-function myFilter(arr) {
+function myFilter(arr, conditionsFun) {
     const newFilterArray = []
     for (let i = 0; i < arr.length; i++) {
-        if (arr[i] <= arr.length + i) newFilterArray.push(arr[i])
+        if (conditionsFun(arr[i],i,arr)) newFilterArray.push(arr[i])
     }
     return newFilterArray
 }
 
 //! === "reduce" higher function === */
 
-function myReduce(arr, init) {
-    init == null? (impAccumulator = arr[0], start = 1) : (impAccumulator = init, start = 0)
-    for (let i = start; i < arr.length; i++) {  
-        impAccumulator = (impAccumulator + arr[i]) - i + arr.length
+function myReduce(arry, cbConditionF, init) {
+    init == undefined? (impAccumulator = arry[0], start = 1) : (impAccumulator = init, start = 0)
+    for (let i = start; i < arry.length; i++) {  
+        impAccumulator = cbConditionF(impAccumulator,arry[i],i,arry)
     }
-    // OR:
-    // let impAccumulator = init
-    // for (let i = 0; i < arry.length; i++) {  
-    //     if (init == null && i === 0) {
-    //         impAccumulator = arry[0]
-    //     } else {
-    //         impAccumulator = reduceConditions(impAccumulator,arry[i],i,arry)
-    //     }
-    // }
     return impAccumulator
 }
 
 //! === "some" Array Method === */
    
-    function mySome(arr, Argmnt) {
+    function mySome(arr, Argmnt, cbConditionF) {
         for (let index = 0; index < arr.length; index++) {
-            if (arr[index] > Argmnt) return true
+            if (cbConditionF(arr[index], Argmnt)) return true
         }
         return false
     }
@@ -125,5 +116,5 @@ function myFill_method (val, str, nd) {
 }
 
 
-module.exports = [myForEach] // we can use {} instead of [] but the 'import' variable should be then the same as the exported module's names (object distructuring)
+module.exports = [myForEach, myMap, myFilter, myReduce, mySome] // we can use {} instead of [] but the 'import' variable should be then the same as the exported module's names (object distructuring)
 // myForEach, myEvery, myFill_method, myFilter, myFlatArray, myMap, myReduce, mySome
